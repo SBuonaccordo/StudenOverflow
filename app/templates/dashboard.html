@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/stuly_dashboard.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <header>
+        <h1>{{ usuario.nombre }}</h1>
+    </header>
+    <aside>
+        <a href="{{ url_for('mostrar_preguntas') }}">Inicio</a>
+        <a href="/login">Cerrar sesión</a>
+    </aside>
+    <main>
+        <div>
+            <h2>Mis preguntas</h2>
+        </div>
+        <div>
+            {% if preguntas %}
+        <ul class="preguntas">
+            {% for pregunta in preguntas %}
+                <li>
+                    <p>{{ pregunta.titulo }}</p>
+                    <small>Publicado el {{ pregunta.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</small>
+                    <p>{{ pregunta.contenido }}</p>
+                    <form action="{{ url_for('responder_pregunta', pregunta_id=pregunta.id)}}" method="POST">
+                        <textarea class="textarea_preguntas" name="contenido" placeholder="Escribe tu respuesta aquí..." required></textarea>
+                        <button class="responder" type="submit">Responder</button>
+                    </form>
+                    <form action="{{ url_for('eliminar_pregunta', pregunta_id=pregunta.id) }}" method="POST" style="display:inline;">
+                        <button class="eliminar_pregunta" type="submit">Eliminar</button>
+                    </form>
+                    <div class="respuestas">
+                        <h4>Respuestas:</h4>
+                        <ul id="respuestas">
+                            {% for respuesta in pregunta.respuestas %}
+                                <li>
+                                    <strong>{{ respuesta.usuario.nombre }}:</strong> {{ respuesta.contenido }}
+                                    {% if session['user_id'] == respuesta.id_usuario %}
+                                        <button onclick="abrirModal({{ respuesta.id }}, '{{ respuesta.contenido|escape }}')">Editar</button>
+                                        <form action="{{ url_for('eliminar_respuesta', respuesta_id=respuesta.id) }}" method="POST" style="display:inline;">
+                                            <button class="eliminar" type="submit">Eliminar</button>
+                                        </form>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>No has realizado preguntas aún.</p>
+        {% endif %}
+        </div>
+    </main>
+    <section>
+        
+    </section>
+</body>
+</html>

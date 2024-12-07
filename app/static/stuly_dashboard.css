@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #0056b3;
+    color: black;
+    padding: 15px 30px;
+    width: 100%;
+    border-bottom: 4px solid #000;
+}
+
+aside{
+    background-color: #38abeea2;
+    width: 85%;
+    margin-left: 5em;
+}
+
+aside a{
+    margin-left: 5em;
+    color: #000;
+    text-decoration: none;
+}
+
+aside a:hover{
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+}
+
+main {
+    width: 70%;
+    margin: 2em auto;
+}
+
+h2 {
+    margin-left: 17em;
+    margin-bottom: 2em;
+}
+
+ul {
+    display: grid;
+    grid-template-columns: repeat(3, 3fr);
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 1em;
+}
+
+textarea {
+    display: block;
+    resize: none;
+    
+}
+
+.preguntas p {
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: 1em;
+}
+
+.preguntas small {
+    display: block;
+    margin: 0;
+    font-size: 0.6em;
+    color: #666;
+}
+
+.textarea_preguntas {
+    width: 20em;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #333;
+
+}
+
+.textarea_preguntas:focus {
+    outline: none;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-top: 5px;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.responder {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    margin-top: 2.5px;
+}
+
+.responder:hover {
+    background-color: #0056b3;
+}
+
+.eliminar_pregunta {
+    background-color: #f00;
+    color: white;
+    border-radius: 5px;
+    margin-top: 2.5p
+}
+
+.eliminar_pregunta:hover {
+    background-color: #ff4343;
+}
+
+button[onclick],
+form[action*="eliminar_respuesta"] button {
+    background: none;
+    color: #555;
+    font-size: 0.8em;
+    padding: 0;
+    border: none;
+    text-decoration: underline;
+}
+
+button[onclick]:hover,
+form[action*="eliminar_respuesta"] button:hover {
+    color: #007bff;
+}
+
+.eliminar {
+    background: none;
+    color: #555;
+    font-size: 0.8em;
+    padding: 0;
+    border: none;
+    text-decoration: underline;
+}
+
+.eliminar:hover {
+    color: #f00;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style_preguntas.css">
+    <title>Preguntas</title>
+</head>
+<body>
+    <aside class="aside_preguntas">
+        <div class="img">
+            <a href="/dashboard">
+                <img src="../static/img/usario_logo.png" alt="User"><br>{{ usuario.nombre }}
+            </a>
+        </div>
+        <br>
+
+        <button id="abrirModalPregunta" onclick="abrirModalPregunta()">Hacer Nueva Pregunta</button>
+        
+        <a href="/">Cerrar sesión</a>
+    </aside>
+    <main>
+        <section>
+            <ul class="preguntas">
+                {% for pregunta in preguntas %}
+                    <li>
+                        <h2>{{ pregunta.titulo }} - <strong>{{ pregunta.usuario.nombre }}</strong></h2>
+                        <small>Publicado el {{ pregunta.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</small>
+                        <p>{{ pregunta.contenido }}</p>
+                        
+                        <form action="{{ url_for('responder_pregunta', pregunta_id=pregunta.id)}}" method="POST">
+                            <textarea class="textarea_preguntas" name="contenido" placeholder="Escribe tu respuesta aquí..." required></textarea>
+                            <button class="responder" type="submit">Responder</button>
+                        </form>
+                        <div class="respuestas">
+                            <h4>Respuestas:</h4>
+                            <ul>
+                                {% for respuesta in pregunta.respuestas %}
+                                    <li>
+                                        <strong>{{ respuesta.usuario.nombre }}:</strong> {{ respuesta.contenido }}
+                                        {% if session['user_id'] == respuesta.id_usuario %}
+                                            <button onclick="abrirModal({{ respuesta.id }}, '{{ respuesta.contenido|escape }}')">Editar</button>
+                                            <form action="{{ url_for('eliminar_respuesta', respuesta_id=respuesta.id) }}" method="POST" style="display:inline;">
+                                                <button class="eliminar" type="submit">Eliminar</button>
+                                            </form>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                {% else %}
+                    <p>No hay preguntas disponibles.</p>
+                {% endfor %}
+            </ul>
+            <div id="modal">
+                <p>Editar Respuesta</p>
+                <form id="editarRespuestaForm" method="POST">
+                    <textarea name="contenido" id="contenidoModal" required></textarea>
+                    <button class="guardar_cambios" type="submit">Guardar cambios</button>
+                    <button type="button" class="cancel-button" onclick="cerrarModal()">Cancelar</button>
+                </form>
+            </div>
+
+            
+            <div id="modalPregunta">
+                <h3>Crear Nueva Pregunta</h3>
+                <form id="formNuevaPregunta">
+                    <input type="text" id="titulo" name="titulo" placeholder="Título" required>
+                    <textarea id="contenido" name="contenido" placeholder="Contenido de la pregunta" required></textarea>
+                    <button class="guardar_cambios" type="submit" onclick="cerrarModalPregunta()">Crear Pregunta</button>
+                    <button type="button" id="cancelarPregunta" class="cancel-button" onclick="cerrarModal()">Cancelar</button>
+                </form>
+                <p id="mensajeModalPregunta"></p>
+            </div>
+        
+            <div id="fondoModal"></div>
+        </section>
+    </main>
+    
+    <script src="../static/modal.js"></script>
+</body>
+</html>
